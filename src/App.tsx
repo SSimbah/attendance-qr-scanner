@@ -21,20 +21,19 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import TeacherLogin from './pages/Login/TeacherLogin';
+import StudentLogin from './pages/Login/StudentLogin';
+import UserType from './pages/Login/UserType';
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
+      <Route exact path="/" component={UserType}/>
+      <Route exact path="/TeacherLogin" component={TeacherLogin}/>
+      <Route exact path="/StudentLogin" component={StudentLogin}/>
+      <Route exact path="/Home" component={Home}/>
     </IonReactRouter>
   </IonApp>
 );
