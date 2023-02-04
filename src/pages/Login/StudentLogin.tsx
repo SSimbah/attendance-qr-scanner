@@ -39,7 +39,7 @@ import {
               <IonRow class="ion-justify-content-end login-container">
                 <button
                   className="btn-login ion-activatable ripple-parent"
-                  onClick={() => history.push("/Home")}
+                  onClick={() => history.push("/StudentHome")}
                 >
                   <IonText>
                     <strong>LOGIN</strong>
