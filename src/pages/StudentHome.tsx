@@ -12,7 +12,7 @@ import { StatusBar } from '@capacitor/status-bar';
 import './Home.css';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
-class Home extends React.Component {
+class StudentHome extends React.Component {
   render() {
     StatusBar.setOverlaysWebView({ overlay: false });
     const dataToScan = async () => {
@@ -41,4 +41,4 @@ class Home extends React.Component {
     );
   }
 };
-export default Home;
+export default StudentHome;

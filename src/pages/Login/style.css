@@ -14,59 +14,40 @@
     position: relative;
     overflow: hidden;
 }
-.login-background{
-    --background: #fff url("../../../public/assets/img/loginBG.png") no-repeat center center / cover;
-}
-.page-title h3{
-    color: #fff;
-    font-family: 'Poppins';
-    font-size: 24px;
-}
-.page-title{
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-/* Login only css */
 .input-box{
-    background-color: rgb(246, 246, 246);
+    background-color: #fff;
     border-radius: 10px;
     height: 50px;
     padding: 0 8px;
 }
 .login-bg{
     z-index: -100;
-    top: 0;
+    bottom: 0;
     left: 0;
     position: fixed;
+    /* top: 0;
     background-position: center center;
-    background-size: cover;
+    background-size: cover; */
 }
 .textfield{
     font-style: bold!important;
 }
 .btn-login{
     margin-top: 0px;
-    background:rgb(214, 208, 20);
-    box-shadow: 0 0px 15px rgba(209, 196, 7, 0.838);
-    border-radius: 20px;
+    background:#e2c71b;
+    box-shadow: 0 0px 12px #e2c71b;
+    border-radius: 15px;
     width: 100px;
-    height: 40px;
-    font-family: 'Poppins';
-    font-size: 18px;
+    height: 50px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight:bolder;
 }
 
-/* UserType only css */
-.btn-usertype{
-    background:rgb(214, 208, 20);
-    box-shadow: 0 0px 10px rgba(209, 196, 7, 0.838);
-    border-radius: 30px;
-    width: 100%;
-    height: 60px;
-    font-family: 'Poppins';
-    font-size: 24px;
+.login-background{
+    --background: #fff url("../../../public/assets/img/loginBG.png") no-repeat center center / cover;
 }
-.usertype-container{
-    margin: 30px 20px;
+.account-dropdown{
+    width: 100%;
+    background-color: rgb(246, 246, 246);
+    box-shadow: none;
 }
