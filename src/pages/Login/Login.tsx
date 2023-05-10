@@ -15,15 +15,65 @@ import {
   import { useHistory } from "react-router";
   import "./style.css";
   import { StatusBar } from "@capacitor/status-bar";
-  import React, { useState } from "react";
-  
+  import React, { useState , useEffect, useRef , useContext} from "react";
+  import axios from "../../api/axios";
+
+
+  interface Student {
+    studentNum: string;
+    studentPassword: string;
+  }
+  interface Instructor {
+    instructorNum: string;
+    instructorPassword: string;
+  }
   interface ContainerProps {}
   const Login: React.FC<ContainerProps> = () => {
     const history = useHistory();
-    StatusBar.setOverlaysWebView({ overlay: true });
+    // StatusBar.setOverlaysWebView({ overlay: true });
     const [selectedOption, setSelectedOption] = useState < string > ('');
-    const handleFormSubmit = () => {
-      console.log(`Selected option: ${selectedOption}`);
+    const [UserID, setUserID] = useState<string>('');
+    const [UserPassword, setUserPassword] = useState<string>('');
+    const [student, setStudent] = useState<Student[]>([]);
+    const [instructor, setInstructor] = useState<Instructor[]>([]);
+
+    useEffect(() => {
+      const getUsers  = async () => {
+        const response = await axios.getAllStudent();
+        setStudent(response);
+      };
+      getUsers ();
+    }, []);
+    useEffect(() => {
+      const getUsers  = async () => {
+        const response = await axios.getAllInstructors();
+        setInstructor(response);
+      };
+      getUsers ();
+    }, []);
+
+    const handleFormSubmit = async () => {
+      if(selectedOption === "Student"){
+        const user = student.find((user) => user.studentNum === UserID && user.studentPassword === UserPassword);
+        if(user){
+          console.log("Student Home");
+          history.push("/StudentHome");
+        }else{
+          console.log("Error!!!")
+        }
+      }else if(selectedOption === "Teacher"){
+        const user = instructor.find((user) => user.instructorNum === UserID && user.instructorPassword === UserPassword);
+        if(user){
+          console.log("Instructor Home");
+          history.push("/TeacherHome");
+        }else{
+          console.log("Error!!!")
+        }
+      }else{
+        console.log("User need to select account type...")
+      }
+      
+      console.log(`User Data: Account Type:${selectedOption}, User ID:${UserID}, Password:${UserPassword}`);
     };
   
     return (
@@ -51,15 +101,17 @@ import {
                   className="textfield"
                   type="email"
                   placeholder="User ID"
+                  value={UserID} onIonChange={e => setUserID(e.detail.value!)}
                 ></IonInput>
               </IonRow>
               <IonRow className="input-box login-container">
-                <IonInput type="password" placeholder="Password"></IonInput>
+                <IonInput type="password" placeholder="Password" value={UserPassword} onIonChange={e => setUserPassword(e.detail.value!)}></IonInput>
               </IonRow>
               <IonRow class="ion-justify-content-end login-container">
                 <button
                   className="btn-login ion-activatable ripple-parent"
-                  onClick={() => history.push("/Home")}
+                  onClick={handleFormSubmit}
+                    //{() => history.push("/Home")}
                 >
                   <IonText>
                     <strong>LOGIN</strong>

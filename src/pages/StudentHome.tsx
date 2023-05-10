@@ -9,7 +9,7 @@ import {
   IonToolbar } from '@ionic/react';
 import React from 'react';
 import { StatusBar } from '@capacitor/status-bar';
-import './Home.css';
+import './StudentHome.css';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 class StudentHome extends React.Component {
