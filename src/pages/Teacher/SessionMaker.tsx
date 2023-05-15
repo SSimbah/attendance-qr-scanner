@@ -8,9 +8,9 @@ import {
     IonTitle, 
     IonToolbar } from '@ionic/react';
   import React from 'react';
-  import './TeacherHome.css';
+  import './SessionMaker.css';
   import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import { StatusBar } from '@capacitor/status-bar';
+//import { StatusBar } from '@capacitor/status-bar';
   class TeacherHome extends React.Component {
     state = {
       stringEncoded: '',
@@ -24,7 +24,7 @@ import { StatusBar } from '@capacitor/status-bar';
       console.log(this.state);
     };
     render() {
-      StatusBar.setOverlaysWebView({ overlay: false });
+      //StatusBar.setOverlaysWebView({ overlay: false });
       const createCode = () => {
         BarcodeScanner.encode(BarcodeScanner.Encode.TEXT_TYPE, this.state.dataEncode)
           .then(data => {

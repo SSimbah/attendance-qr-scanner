@@ -12,67 +12,66 @@ import {
     IonSelectOption,
     IonText,
   } from "@ionic/react";
-  import { useHistory } from "react-router";
+  import { useHistory } from "react-router-dom";
   import "./style.css";
   import { StatusBar } from "@capacitor/status-bar";
   import React, { useState , useEffect, useRef , useContext} from "react";
-  import axios from "../../api/axios";
+  import axios from 'axios';
 
 
-  interface Student {
-    studentNum: string;
-    studentPassword: string;
-  }
-  interface Instructor {
-    instructorNum: string;
-    instructorPassword: string;
-  }
   interface ContainerProps {}
   const Login: React.FC<ContainerProps> = () => {
-    const history = useHistory();
     // StatusBar.setOverlaysWebView({ overlay: true });
+    const history = useHistory();
     const [selectedOption, setSelectedOption] = useState < string > ('');
     const [UserID, setUserID] = useState<string>('');
     const [UserPassword, setUserPassword] = useState<string>('');
-    const [student, setStudent] = useState<Student[]>([]);
-    const [instructor, setInstructor] = useState<Instructor[]>([]);
-
-    useEffect(() => {
-      const getUsers  = async () => {
-        const response = await axios.getAllStudent();
-        setStudent(response);
-      };
-      getUsers ();
-    }, []);
-    useEffect(() => {
-      const getUsers  = async () => {
-        const response = await axios.getAllInstructors();
-        setInstructor(response);
-      };
-      getUsers ();
-    }, []);
+   
 
     const handleFormSubmit = async () => {
       if(selectedOption === "Student"){
-        const user = student.find((user) => user.studentNum === UserID && user.studentPassword === UserPassword);
-        if(user){
-          console.log("Student Home");
-          history.push("/StudentHome");
-        }else{
-          console.log("Error!!!")
+        try {
+          const response = await axios.post('https://localhost:7297/api/Students/Login/' + UserID + "/" + UserPassword);
+          console.log(response.data.token);
+          const userID  = JSON.stringify(response.data.user);
+          console.log(userID);
+          //localStorage.setItem('token', response.data);
+          //localStorage.removeItem('token');
+          // Redirect the user to the dashboard page
+          if (response.status === 200) {
+            const { token } = response.data.token;
+            const { userID } = response.data.user.studentID;
+            //localStorage.setItem('token', token);
+            //localStorage.setItem('token', userID);
+            localStorage.removeItem('token');
+            localStorage.removeItem('userData');
+            history.push("/StudentHome", { disableBack: true });
+          } else {
+            alert('Invalid email or password');
+          }
+        } catch (error) {
+          console.error(error);
         }
+        
       }else if(selectedOption === "Teacher"){
-        const user = instructor.find((user) => user.instructorNum === UserID && user.instructorPassword === UserPassword);
-        if(user){
-          console.log("Instructor Home");
-          history.push("/TeacherHome");
-        }else{
-          console.log("Error!!!")
+        try {
+          const response = await axios.post('https://localhost:7297/api/Instructors/Login/' + UserID + "/" + UserPassword);
+          console.log(response.data);
+          if (response.status === 200) {
+            const { token } = response.data;
+            //const { userData } = response.data.user;
+            localStorage.setItem('token', token);
+            localStorage.setItem('userData', JSON.stringify(response.data.user));
+            history.push("/TeacherDashboard", { disableBack: true });
+          } else {
+            alert('Invalid email or password');
+          }
+        } catch (error) {
+          console.error(error);
         }
       }else{
         console.log("User need to select account type...")
       }
-      
       console.log(`User Data: Account Type:${selectedOption}, User ID:${UserID}, Password:${UserPassword}`);
     };
   
@@ -99,7 +98,7 @@ import {
               <IonRow className="input-box login-container">
                 <IonInput
                   className="textfield"
-                  type="email"
+                  type="text"
                   placeholder="User ID"
                   value={UserID} onIonChange={e => setUserID(e.detail.value!)}
                 ></IonInput>
@@ -111,7 +110,6 @@ import {
                 <button
                   className="btn-login ion-activatable ripple-parent"
                   onClick={handleFormSubmit}
-                    //{() => history.push("/Home")}
                 >
                   <IonText>
                     <strong>LOGIN</strong>

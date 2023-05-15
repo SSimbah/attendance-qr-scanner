@@ -1,8 +1,13 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/StudentHome';
-import TeacherHome from './pages/TeacherHome'
+
+import PrivateRoute from './components/PrivateRoute';
+import Login from './pages/Login/Login';
+import StudentHome from './pages/Student/StudentHome';
+import SessionMaker from './pages/Teacher/SessionMaker'
+import TeacherDashboard from './pages/Teacher/TeacherDashboard'
+//import { AuthProvider } from './components/AuthContext';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -22,22 +27,22 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import TeacherLogin from './pages/Login/TeacherLogin';
-import StudentLogin from './pages/Login/StudentLogin';
-import Login from './pages/Login/Login';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <Route exact path="/" component={Login}/>
-      <Route exact path="/TeacherLogin" component={TeacherLogin}/>
-      <Route exact path="/StudentLogin" component={StudentLogin}/>
-      <Route exact path="/StudentHome" component={Home}/>
-      <Route exact path="/TeacherHome" component={TeacherHome}/>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route exact path="/" component={Login}/>
+          <PrivateRoute exact path="/StudentHome" component={StudentHome} />
+          <PrivateRoute exact path="/TeacherDashboard" component={TeacherDashboard} />
+          <PrivateRoute exact path="/TeacherDashboard/SessionMaker" component={SessionMaker}/>
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

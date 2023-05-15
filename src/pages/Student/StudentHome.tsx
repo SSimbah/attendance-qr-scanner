@@ -7,14 +7,15 @@ import {
   IonPage, 
   IonTitle, 
   IonToolbar } from '@ionic/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from '@capacitor/status-bar';
 import './StudentHome.css';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-
+//import withAuth from '../components/withAuth';
 class StudentHome extends React.Component {
+  
   render() {
-    StatusBar.setOverlaysWebView({ overlay: false });
+    //StatusBar.setOverlaysWebView({ overlay: false });
     const dataToScan = async () => {
       const data = await BarcodeScanner.scan({
         resultDisplayDuration: 2,
@@ -24,6 +25,7 @@ class StudentHome extends React.Component {
       alert(data.text);
       this.setState({ stringEncoded: data.text})
     };
+    
     return (
       <IonPage>
         <IonHeader>
